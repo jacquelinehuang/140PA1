@@ -59,20 +59,45 @@ int itmv_mult(
       int       blocksize  /* in  */, 
       int       my_rank    /* in  */,
       int       no_proc    /* in  */,
-      MPI_Comm  comm       /* in  */) {
+      MPI_Comm  comm       /* in  */) 
+{
    double* x;
    int local_i, j, start, k;
    int succ, all_succ;
 
    if (n<=0 || blocksize<=0 ||local_A==NULL || local_x==NULL || local_y==NULL ||no_proc<=0|| my_rank<0 |my_rank>=no_proc)
-	return 0;
+	   return 0;
    if( n % no_proc!=0) /* n is not divisible by no_proc */
-	return 0;
+	   return 0;
    if( n/no_proc!= blocksize) /* wrong local array size */
-	return 0;
+	   return 0;
 
    /*Your solution */
+   x=malloc(n*sizeof(double));; //declare our x. Wait what why tho (?) 
+   //this allgather uses local_x and gives a complete vec x to every processor and puts it in their x(?)
+   MPI_Allgather(local_x, blocksize, MPI_DOUBLE, x, blocksize, MPI_DOUBLE, comm);
 
+   for (local_i=0; i<blocksize; local_i++)
+   {
+      local_y[local_i]=local_d[local_i]; //y[i]+=d[i] portion
+      //the triangle matrix handling stuff
+      if(matrix_type==UPPER_TRIANGULAR){
+         start=i;
+      }else {
+		  start=0;
+      } 
+
+      for (int j=start; j<n; j++)
+      {
+         local_y[local_i]+=local_A[local_i*n+j]*x[j]; //y[i]= A*x[j] part
+      }
+   }
+
+   //putting everything back to global_x in processor 0???
+   if (my_rank==0)
+   {
+      MPI_Gather(local_y,blocksize,MPI_DOUBLE, global_x, blocksize, MPI_DOUBLE,comm);
+   }
    return 1;
 }  
 
@@ -101,15 +126,15 @@ int itmv_mult_seq( double A[],  double x[], double d[], double  y[],
 
    for(k=0; k<t; k++){
    	for (i = 0; i < n; i++) {
-      		y[i]= d[i];
-      		if(matrix_type==UPPER_TRIANGULAR){
-			start=i;
-		}else {
-			start=0;
-      		}
-      		for (j = start; j < n; j++) {
-         		y[i] += A[i*n+j]*x[j];
-		}
+      	y[i]= d[i];
+      	if(matrix_type==UPPER_TRIANGULAR){
+            start=i;
+         }else {
+			  start=0;
+      	}
+      	for (j = start; j < n; j++) {
+         	y[i] += A[i*n+j]*x[j];
+		   }
    	}
    	for (i = 0; i < n; i++) {
       		x[i]= y[i];

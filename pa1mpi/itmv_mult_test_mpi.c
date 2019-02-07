@@ -234,7 +234,7 @@ char * itmv_test(char *testmsg, int test_correctness, int n, int matrix_type, in
 
   blocksize= n/no_proc;/* n is divisible by no_proc by assunmption*/
   succ= allocate_space( &local_A, &local_x, &local_d, &local_y, &global_x, blocksize, n);
-  if(succ=0){/*one of processes failed in memory allocation*/
+  if(succ==0){/*one of processes failed in memory allocation*/
     msg="Failed space allocation";
 		
     print_error(testmsg, msg);
@@ -250,7 +250,7 @@ char * itmv_test(char *testmsg, int test_correctness, int n, int matrix_type, in
     startwtime= MPI_Wtime();
 
   succ = itmv_mult(local_A, local_x, local_d, local_y, global_x, matrix_type, n, t, blocksize, my_rank, no_proc, comm);
-  if(succ=0){/*one of processes failed in computing */
+  if(succ==0){/*one of processes failed in computing */
     msg="Failed matrix multiplication";
     print_error(testmsg, msg);
     return msg;
