@@ -35,7 +35,8 @@ treesum_test1 ()
   /* Your solution */
   int my_int = my_rank; 
   int exp_sum = 0; 
-  for(int i = 0; i<no_proc; i++) {
+ int i;
+  for(i = 0; i<no_proc; i++) {
     exp_sum += i; 
   }
   int sum = global_sum(my_int, my_rank, no_proc, comm);

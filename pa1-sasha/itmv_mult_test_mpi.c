@@ -264,17 +264,17 @@ init_matrix (double *local_A, double *local_x, double *local_d,
   if (local_A == NULL || local_x == NULL || local_d == NULL || local_y == NULL || blocksize <= 0) return FAIL;
   
   int start, diag; 
-
+  int i, j;
   // initialize x and d
-  for(int i=0; i < blocksize; i++) {
+  for(i=0; i < blocksize; i++) {
     local_x[i] = 0.0;
     local_d[i] = (2.0*n-1.0)/n;
   }
   // initialize A blocks
   if(matrix_type == UPPER_TRIANGULAR) {
     start = my_rank*blocksize + 1; 
-    for(int i=0; i<blocksize; i++) {
-      for(int j=0; j<n; j++) {
+    for(i=0; i<blocksize; i++) {
+      for(j=0; j<n; j++) {
         if (j < start) {
           local_A[i*n+j] = 0;
         } else {
@@ -284,8 +284,8 @@ init_matrix (double *local_A, double *local_x, double *local_d,
       start++;
     }
   } else {
-    for(int i=0; i<blocksize; i++) {
-      for(int j=0; j<n; j++) {
+    for(i=0; i<blocksize; i++) {
+      for(j=0; j<n; j++) {
         diag = my_rank*blocksize;
           if(j == diag) {
             local_A[i*n+j] = 0;
@@ -483,7 +483,9 @@ run_all_tests (void)
   mu_run_test (itmv_test6);
   mu_run_test (itmv_test7);
   mu_run_test (itmv_test8);
-  /* mu_run_test(itmv_test9); mu_run_test(itmv_test10);
+  
+mu_run_test(itmv_test9);
+/* mu_run_test(itmv_test10);
      mu_run_test(itmv_test11); mu_run_test(itmv_test12);
      mu_run_test(itmv_test13); mu_run_test(itmv_test14); */
 }

@@ -73,6 +73,8 @@ itmv_mult (double local_A[] /* in */ ,
   int succ,
     all_succ;
 
+int i; //compiler nees these to be declared first its weird 
+
   if (n <= 0 || blocksize <= 0 || local_A == NULL || local_x == NULL
       || local_y == NULL || no_proc <= 0 || my_rank < 0 | my_rank >= no_proc)
     return 0;
@@ -97,11 +99,11 @@ itmv_mult (double local_A[] /* in */ ,
 
     for (local_i = 0; local_i < blocksize; local_i++) {
       local_y[local_i] = local_d[local_i];
-      if (matrix_type == UPPER_TRIANGULAR) {
+      /*if (matrix_type == UPPER_TRIANGULAR) {
         start = (my_rank*blocksize) + 1;
       } else {
         start = 0;
-      }
+      }*/
       for (j = start; j < n; j++) {
         local_y[local_i] += local_A[local_i*n+j] * x[j];
       }
@@ -127,7 +129,7 @@ itmv_mult (double local_A[] /* in */ ,
   //   global_x = x; 
   // }
   if(my_rank == 0) {
-    for(int i = 0; i<n; i++) {
+    for(i = 0; i<n; i++) {
       global_x[i] = x[i]; 
     }
   }
