@@ -430,42 +430,42 @@ itmv_test8 ()
 char *
 itmv_test9 ()
 {
-  return itmv_test ("Test 9: n=2K t=1K", !TEST_CORRECTNESS, 2048,
+  return itmv_test ("Test 9: n=2K t=1K", TEST_CORRECTNESS, 2048,
                     !UPPER_TRIANGULAR, 1024);
 }
 
 char *
 itmv_test10 ()
 {
-  return itmv_test ("Test 10: n=2K t=1K upper", !TEST_CORRECTNESS, 2048,
+  return itmv_test ("Test 10: n=2K t=1K upper", TEST_CORRECTNESS, 2048,
                     UPPER_TRIANGULAR, 1024);
 }
 
 char *
 itmv_test11 ()
 {
-  return itmv_test ("Test 11: n=4K t=1K", !TEST_CORRECTNESS, 4096,
+  return itmv_test ("Test 11: n=4K t=1K", TEST_CORRECTNESS, 4096,
                     !UPPER_TRIANGULAR, 1024);
 }
 
 char *
 itmv_test12 ()
 {
-  return itmv_test ("Test 12: n=4K t=1K upper", !TEST_CORRECTNESS, 4096,
+  return itmv_test ("Test 12: n=4K t=1K upper", TEST_CORRECTNESS, 4096,
                     UPPER_TRIANGULAR, 1024);
 }
 
 char *
 itmv_test13 ()
 {
-  return itmv_test ("Test 13: n=8K t=1K", !TEST_CORRECTNESS, 4096 * 2,
+  return itmv_test ("Test 13: n=8K t=1K", TEST_CORRECTNESS, 4096 * 2,
                     !UPPER_TRIANGULAR, 1024);
 }
 
 char *
 itmv_test14 ()
 {
-  return itmv_test ("Test 14: n=8K t=1K upper", !TEST_CORRECTNESS, 4096 * 2,
+  return itmv_test ("Test 14: n=8K t=1K upper", TEST_CORRECTNESS, 4096 * 2,
                     UPPER_TRIANGULAR, 1024);
 }
 
@@ -483,9 +483,9 @@ run_all_tests (void)
   mu_run_test (itmv_test6);
   mu_run_test (itmv_test7);
   mu_run_test (itmv_test8);
-  /* mu_run_test(itmv_test9); mu_run_test(itmv_test10);
+  mu_run_test(itmv_test9); mu_run_test(itmv_test10);
      mu_run_test(itmv_test11); mu_run_test(itmv_test12);
-     mu_run_test(itmv_test13); mu_run_test(itmv_test14); */
+     mu_run_test(itmv_test13); mu_run_test(itmv_test14);
 }
 
 /*-------------------------------------------------------------------
