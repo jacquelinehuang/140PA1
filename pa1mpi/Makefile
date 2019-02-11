@@ -22,9 +22,14 @@ OBJECTS2=mv_mult_mpi.o mv_mult_test_mpi.o minunit.o
 
 OBJECTS3=itmv_mult_mpi.o itmv_mult_test_mpi.o test_main_mpi.o minunit.o
 
-TARGET= pi prog32_pi_test_mpi treesum_test_mpi mv_mult_test_mpi itmv_mult_test_mpi 
+TARGET= pi prog32_pi_test_mpi treesum_test_mpi mv_mult_test_mpi itmv_mult_test_mpi itmv_mult_seq
+
+OBJECTSSEQ3=imv_mult_seq.o minunit.o
 
 all:  $(TARGET)
+
+itmv_mult_seq:$(OBJECTS0)
+	$(CC) -o $@ $(OBJECTS0) $(LDFLAGS)
 
 pi: $(OBJECTS0)
 	$(CC) -o $@ $(OBJECTS0) $(LDFLAGS)

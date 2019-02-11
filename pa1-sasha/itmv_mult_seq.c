@@ -21,22 +21,77 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include <mpi.h>
-
+#include "minunit.h"
 
 #define UPPER_TRIANGULAR 1
 int itmv_mult_seq (double A[], double x[], double d[], double y[],
                int matrix_type, int n, int t);
 
+
 int main (int argc, char*argv[])
 {
 
-double startwtime= get_time();
-itmv_mult_seq()
-doule endwtime= get_time();
+int n=4096; int t=1024;
+int i, j; 
+
+  double *A,*B, *x,*d,*y;
+  A = malloc (n * n * sizeof (double));
+  B = malloc (n * n * sizeof (double));
+  x = malloc (n * sizeof (double));
+  d = malloc (n * sizeof (double));
+  y = malloc (n * sizeof (double));      
+  
+
+  // initialize x and d
+  for(i=0; i < n; i++) {
+    x[i] = 0.0;
+    d[i] = (2.0*n-1.0)/n;
+  }
+
+    
+//A is upper triangular
+for(i=0; i<n; i++) {
+      for(j=0; j<n; j++) {
+        if (i <=j ) {
+          A[i*n+j] = 0;
+        } else {
+          A[i*n+j] = -1.0/n; 
+        }
+      }
+    }
+
+   
+///make diagonal one B
+    for(i=0; i<n; i++) {
+      for(j=0; j<n; j++) {
+          if(j == i) {
+            B[i*n+j] = 0;
+          } else {
+            B[i*n+j] = -1.0/n; 
+          }
+      }
+    }
+  
+//itmv_mult_seq (double A[], double x[], double d[], double y[], int matrix_type, int n, int t)
+double startdiagtime= get_time();
+itmv_mult_seq(B, x, d, y, !UPPER_TRIANGULAR, n, t);
+double enddiagtime= get_time();
+ printf ("Program diagonal itmv seq.c: wall clock time = %f seconds\n",
+          enddiagtime - startdiagtime);
+
+double starttriangletime= get_time();
+itmv_mult_seq(A, x, d, y, UPPER_TRIANGULAR, n, t);
+double endtriangletime= get_time();
+ printf ("Program triangular time seq.c: wall clock time = %f seconds\n",
+          endtriangletime - starttriangletime);
 
 
-
+  free (A);
+  free (B);
+  free (x);
+  free (d);
+  free(y);
+  return 1;
 }
 
 /*-------------------------------------------------------------------
@@ -50,7 +105,7 @@ doule endwtime= get_time();
  *            t: 	the number of iterations
  * In/out:    x:  column vector x
  *            y:  column vector y
- * Return:  1  means succesful
+- * Return:  1  means succesful
  * 	    0  means unsuccessful 
  * Errors:   If an error is detected (e.g. n is non-positive, matrix/vector pointers are NULL. 
  *           
