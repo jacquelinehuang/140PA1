@@ -91,7 +91,7 @@ double endtriangletime= get_time();
   free (x);
   free (d);
   free(y);
-  return 1;
+  return 0;
 }
 
 /*-------------------------------------------------------------------
