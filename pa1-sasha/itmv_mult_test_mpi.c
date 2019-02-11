@@ -19,7 +19,7 @@ int my_rank,
   no_proc;
 MPI_Comm comm;
 
-#define MAX_TEST_MATRIX_SIZE 2048
+#define MAX_TEST_MATRIX_SIZE 8192
 
 #define FAIL 0
 #define SUCC 1
@@ -486,6 +486,8 @@ run_all_tests (void)
   
 mu_run_test(itmv_test9);
 mu_run_test(itmv_test10);
+
+
      mu_run_test(itmv_test11); mu_run_test(itmv_test12);
      mu_run_test(itmv_test13); mu_run_test(itmv_test14);
 }

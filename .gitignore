@@ -35,6 +35,13 @@
 *.i*86
 *.x86_64
 *.hex
+itmv_mult_seq
+itmv_mult_test_mpi
+mv_mult_test_mpi
+pi
+prog32_pi_test_mpi
+treesum_test_mpi
+
 
 # Debug files
 *.dSYM/

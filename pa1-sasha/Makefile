@@ -24,7 +24,7 @@ OBJECTS3=itmv_mult_mpi.o itmv_mult_test_mpi.o test_main_mpi.o minunit.o
 
 TARGET= pi prog32_pi_test_mpi treesum_test_mpi mv_mult_test_mpi itmv_mult_test_mpi itmv_mult_seq
 
-OBJECTSSEQ3=imv_mult_seq.o minunit.o
+OBJECTSSEQ3=itmv_mult_seq.c minunit.o
 
 all:  $(TARGET)
 itmv_mult_seq:$(OBJECTS0)
