@@ -8,9 +8,9 @@ NUM_PROC = 2
 CC      = gcc
 MPICC   = $(MPI_PREFIX)mpicc
 MPIRUN  = $(MPI_PREFIX)mpirun
-CFLAGS  =  -O
+#CFLAGS  =  -O
 LDFLAGS  =  -O
-#CFLAGS  =  -O -DDEBUG1
+CFLAGS  =  -O -DDEBUG1
 
 OBJECTS0= pi_seq.o minunit.o
 

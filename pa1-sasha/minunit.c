@@ -1,4 +1,3 @@
-
 /* File:     minunit.c
  *
  * Purpose:  a minimum unit test API
@@ -15,9 +14,8 @@
 #include <sys/time.h>
 #include "minunit.h"
 
-int _mu_tests_run = 0;
-int _mu_tests_failed = 0;
-
+int  _mu_tests_run=0; 		
+int  _mu_tests_failed=0;
 /*--------------------------------------------------------------------
  Function: mu_run_test with argument  test_fun  
  Purpose:  Run a simple unit test specified by test_fun function pointer.
@@ -28,36 +26,27 @@ int _mu_tests_failed = 0;
  Return: If the test fails, the function should return a string describing the failing test. 
 	 If the test passes,  returns NULL as 0  
  */
-char *
-mu_run_test (char *(*test_fun) ())
-{
-  char *message = (*test_fun) ();
-
-  _mu_tests_run++;
-  if (message) {
-    _mu_tests_failed++;
-#ifdef DEBUG
-    printf ("%s\n", message);
+char*  mu_run_test(char * (*test_fun)()){
+	 char *message = (*test_fun)();
+	 _mu_tests_run++; 		
+         if (message){ 		
+		_mu_tests_failed++; 
+#ifdef DEBUG	
+		printf("%s\n", message);
 #endif
-  }
-  return message;
+	}
+	return message; 
 }
-
-void
-mu_print_test_summary (char *startmsg)
-{
-  printf ("%s Failed %d out of %d tests\n", startmsg, _mu_tests_failed,
-          _mu_tests_run);
+void  mu_print_test_summary(char *startmsg){
+	printf("%s Failed %d out of %d tests\n",startmsg, _mu_tests_failed, _mu_tests_run);
 }
 
 /*------------------------------
  *Get the elapsed time in seconds
  */
-double
-get_time ()
-{
-  struct timeval t;
-
-  gettimeofday (&t, NULL);
-  return t.tv_sec + t.tv_usec / 1000000.0;
+double get_time() {
+   struct timeval t;
+   gettimeofday(&t, NULL);
+   return  t.tv_sec + t.tv_usec/1000000.0;
 }
+

@@ -74,30 +74,48 @@ int itmv_mult(
 
    /*Your solution */
    x=malloc(n*sizeof(double));; //declare our x. Wait what why tho (?) 
-   //this allgather uses local_x and gives a complete vec x to every processor and puts it in their x(?)
+   //this allgather uses local_x and gives a complete vec x to every processor to use
    MPI_Allgather(local_x, blocksize, MPI_DOUBLE, x, blocksize, MPI_DOUBLE, comm);
 
-   for (local_i=0; i<blocksize; local_i++)
+   //printf("in processor: %d. blocksize is %d, and n is %d\n", my_rank, blocksize, n);
+   
+   for (k=0; k<t; k++)
    {
-      local_y[local_i]=local_d[local_i]; //y[i]+=d[i] portion
-      //the triangle matrix handling stuff
-      if(matrix_type==UPPER_TRIANGULAR){
-         start=i;
-      }else {
-		  start=0;
-      } 
+      for (local_i=0; local_i<n; local_i++)
+         {
+            local_y[local_i]=local_d[local_i]; //y[i]+=d[i] portion
+            //the triangle matrix handling stuff
+            if(matrix_type==UPPER_TRIANGULAR){
+               start=local_i;
+            }else {
+               start=0;
+            } 
 
-      for (int j=start; j<n; j++)
-      {
-         local_y[local_i]+=local_A[local_i*n+j]*x[j]; //y[i]= A*x[j] part
-      }
+            for (int j=start; j<n; j++)
+            {
+               local_y[local_i]+=local_A[local_i*n+j]*x[j]; //y[i]= A*x[j] part
+               printf("in processor: %d. local y is %d at locali: %i \n", my_rank, local_y[local_i], local_i);
+            }
+            
+         }
+
+         //x= y part, for each one 
+         for (local_i = 0; local_i < blocksize; local_i++) {
+               local_x[local_i]= local_y[local_i];
+         }
+
    }
-
-   //putting everything back to global_x in processor 0???
+  
+   //putting everything back to global_x in processor 0??? 
    if (my_rank==0)
    {
-      MPI_Gather(local_y,blocksize,MPI_DOUBLE, global_x, blocksize, MPI_DOUBLE,comm);
+      for (int i= 0; i < n; i++) {
+      		global_x[i]= local_x[i];
+	   }
    }
+   //MPI_Gather(local_x,blocksize,MPI_DOUBLE, global_x, blocksize, MPI_DOUBLE,0,comm);
+   free(x);
+
    return 1;
 }  
 

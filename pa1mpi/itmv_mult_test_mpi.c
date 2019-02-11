@@ -218,6 +218,8 @@ int init_matrix( double *local_A, double *local_x, double *local_d, double *loca
     return FAIL;
 
   /*Your solution */
+	
+
   return SUCC;
 }
 

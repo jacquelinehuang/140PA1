@@ -56,6 +56,7 @@ int mat_vect_mult(
    if( blocksize != (n/ no_proc)) /* has to n/no_proc*/
 	return 0;
    x = malloc(n*sizeof(double));
+   //checks if all xs are allocatable properly if not then all_suc would be 0
    succ= x!=NULL;
    MPI_Allreduce(&succ, &all_succ, 1, MPI_INT, MPI_PROD, comm);
    if(all_succ==0)	
